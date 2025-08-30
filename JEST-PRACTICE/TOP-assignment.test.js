@@ -3,6 +3,7 @@ const {
   reverseString,
   calculator,
   ceaserCypher,
+  analyzeArray,
 } = require("./TOP-assignment");
 
 describe("TOP assginment", () => {
@@ -25,5 +26,41 @@ describe("TOP assginment", () => {
 describe("Ceasar Cipher", () => {
   it("just make a shift", () => {
     expect(ceaserCypher("xyz", 3)).toEqual("abc");
+  });
+
+  it("case preservation", () => {
+    expect(ceaserCypher("oNeNeEe", 3)).toBe("rQhQhHh");
+  });
+
+  it("test punctuation", () => {
+    expect(ceaserCypher("one one", 3)).toBe("rqh rqh");
+
+    expect(ceaserCypher("one!one", 3)).toBe("rqh!rqh");
+    expect(ceaserCypher("one!one...", 3)).toBe("rqh!rqh...");
+    expect(ceaserCypher("Lets! GOOOO! @VMC", 3)).toBe("Ohwv! JRRRR! @YPF");
+  });
+});
+
+describe("Array analyzer", () => {
+  let obj;
+
+  beforeEach(() => {
+    obj = analyzeArray([3, 9, 5, 7, 1]);
+  });
+
+  it("get the average", () => {
+    expect(obj.average).toEqual(5);
+  });
+
+  it("get the minimum", () => {
+    expect(obj.min).toEqual(1);
+  });
+
+  it("get the maximum", () => {
+    expect(obj.max).toEqual(9);
+  });
+
+  it("get the length", () => {
+    expect(obj.length).toEqual(5);
   });
 });

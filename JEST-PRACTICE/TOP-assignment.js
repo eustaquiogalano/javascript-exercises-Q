@@ -68,7 +68,7 @@ function ceaserCypher(string, shiftFactor) {
   // get each index of each char of the given string
   // and put it in arrOfIndeces array
   for (let char of string) {
-    arrOfIndeces.push(plainText.indexOf(char));
+    arrOfIndeces.push(plainText.indexOf(char.toLowerCase()));
   }
 
   // this array holds all the equivalent encrypted character
@@ -77,13 +77,73 @@ function ceaserCypher(string, shiftFactor) {
   // get each index
   // get the equivalent element in cyphertext alphabet (shifted)
   // and add each element in encryptedElements array
-  for (let element of arrOfIndeces) {
-    encryptedElements.push(shifted[element]);
+  for (let e = 0; e < arrOfIndeces.length; e++) {
+    if (isAlphabet(shifted[arrOfIndeces[e]])) {
+      encryptedElements.push(shifted[arrOfIndeces[e]]);
+    } else {
+      encryptedElements.push(string[e]);
+    }
   }
+
+  for (let charIndex = 0; charIndex < string.length; charIndex++) {
+    if (string[charIndex] === string[charIndex].toUpperCase()) {
+      encryptedElements = uppercaseCharAt(encryptedElements, charIndex);
+    }
+  }
+
+  let encryptedMessage = encryptedElements.join("");
 
   // combine the while array
   // and send the result
-  return encryptedElements.join("");
+  return encryptedMessage;
+}
+
+function uppercaseCharAt(array, index) {
+  let currentElement = isAlphabet(array[index])
+    ? array[index].toUpperCase()
+    : array[index];
+  array.splice(index, 1, currentElement);
+  return array;
+}
+
+function isAlphabet(element) {
+  return /^[a-zA-Z]$/.test(element);
+}
+
+function analyzeArray(array) {
+  return {
+    average: getAverage(array),
+    min: getMinimum(array),
+    max: getMaximum(array),
+    length: array.length,
+  };
+}
+
+function getAverage(array) {
+  let sum = array.reduce((accumulator, currentElement) => {
+    return accumulator + currentElement;
+  });
+  return sum / array.length;
+}
+
+function getMinimum(array) {
+  let minimum = array[0];
+  for (let currentElement of array) {
+    if (currentElement < minimum) {
+      minimum = currentElement;
+    }
+  }
+  return minimum;
+}
+
+function getMaximum(array) {
+  let maximum = array[0];
+  for (let currentElement of array) {
+    if (currentElement > maximum) {
+      maximum = currentElement;
+    }
+  }
+  return maximum;
 }
 
 module.exports = {
@@ -91,4 +151,5 @@ module.exports = {
   reverseString,
   calculator,
   ceaserCypher,
+  analyzeArray,
 };
